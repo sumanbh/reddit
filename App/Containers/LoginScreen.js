@@ -19,7 +19,7 @@ class LoginScreen extends React.Component {
     static propTypes = {
       dispatch: PropTypes.func,
       fetching: PropTypes.bool,
-      attemptLogin: PropTypes.func
+      attemptLogin: PropTypes.func,
     }
 
     isAttempting = false
@@ -59,36 +59,36 @@ class LoginScreen extends React.Component {
 
     keyboardDidShow = (e) => {
         // Animation types easeInEaseOut/linear/spring
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-        let newSize = Metrics.screenHeight - e.endCoordinates.height
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        let newSize = Metrics.screenHeight - e.endCoordinates.height;
         this.setState({
             visibleHeight: newSize,
-            topLogo: { width: 100, height: 70 }
-        })
+            topLogo: { width: 100, height: 70 },
+        });
     }
 
     keyboardDidHide = (e) => {
         // Animation types easeInEaseOut/linear/spring
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         this.setState({
             visibleHeight: Metrics.screenHeight,
-            topLogo: { width: Metrics.screenWidth }
-        })
+            topLogo: { width: Metrics.screenWidth },
+        });
     }
 
     handlePressLogin = () => {
-        const { username, password } = this.state
-        this.isAttempting = true
+        const { username, password } = this.state;
+        this.isAttempting = true;
         // attempt a login - a saga is listening to pick it up from here.
-        this.props.attemptLogin(username, password)
+        this.props.attemptLogin(username, password);
     }
 
     handleChangeUsername = (text) => {
-        this.setState({ username: text })
+        this.setState({ username: text });
     }
 
     handleChangePassword = (text) => {
-        this.setState({ password: text })
+        this.setState({ password: text });
     }
 
     render() {
