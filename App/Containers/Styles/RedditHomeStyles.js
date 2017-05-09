@@ -20,7 +20,7 @@ export default StyleSheet.create({
         textAlign: 'left',
         padding: (Metrics.smallMargin, Metrics.smallMargin, 0, 0),
     },
-    upboat: {
+    upvote: {
         textAlign: 'center',
         color: Colors.steel,
         marginBottom: Metrics.smallMargin,

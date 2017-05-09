@@ -5,13 +5,15 @@
         "es6": true,
         "node": true
     },
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true,
             "experimentalObjectRestSpread": true,
             "experimentalDecorators": true
         },
-        "sourceType": "module"
+        "sourceType": "module",
+        "experimentalDecorators": true
     },
     "rules": {
         "no-const-assign": "warn",

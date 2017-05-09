@@ -1,4 +1,4 @@
-import { Colors } from '../../Themes/';
+import { Colors, Fonts } from '../../Themes/';
 
 export default {
     container: {
@@ -8,6 +8,7 @@ export default {
         backgroundColor: Colors.coal,
     },
     title: {
+        fontSize: Fonts.size.regular,
         color: Colors.snow,
     },
     leftButton: {

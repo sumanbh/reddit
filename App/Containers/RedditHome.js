@@ -62,7 +62,7 @@ export class RedditHome extends React.Component {
     // opens Safari webview
     onPressButton(url, title) {
         this.props.openWebsite(url);
-        Actions.webView({ open: true, title: title });
+        Actions.webView({ open: true, title });
     }
 
     // pull down to refresh
@@ -81,21 +81,21 @@ export class RedditHome extends React.Component {
             reddit.getHot(subreddit).then((result) => {
                 if (result.length > 0) {
                     switch (subreddit.toLowerCase()) {
-                        case '': {
-                            Actions.refresh({ title: 'Reddit: the front page of the internet' });
-                            break;
-                        }
-                        case 'popular': {
-                            Actions.refresh({ title: 'r/popular' });
-                            break;
-                        }
-                        case 'all': {
-                            Actions.refresh({ title: 'r/all' });
-                            break;
-                        }
-                        default: {
-                            Actions.refresh({ title: result[0].subreddit_name_prefixed || 'Reddit: the front page of the internet' });
-                        }
+                    case '': {
+                        Actions.refresh({ title: 'Reddit: the front page of the internet' });
+                        break;
+                    }
+                    case 'popular': {
+                        Actions.refresh({ title: 'r/popular' });
+                        break;
+                    }
+                    case 'all': {
+                        Actions.refresh({ title: 'r/all' });
+                        break;
+                    }
+                    default: {
+                        Actions.refresh({ title: result[0].subreddit_name_prefixed || 'Reddit: the front page of the internet' });
+                    }
                     }
                     this.setState({ dataSource: this.state.dataSource.cloneWithRows(result), isRefreshing: false, searchTerm: subreddit, animating: false });
                 }
@@ -108,7 +108,9 @@ export class RedditHome extends React.Component {
             let noThumbnails = false;
             const thumbnailsArr = ['', 'spoiler', 'self', 'default', 'image'];
             if (thumbnailsArr.includes(rowData.thumbnail)) noThumbnails = true;
-            const upboats = rowData.ups ? rowData.ups > 9999 ? (rowData.ups / 1000).toFixed(1) + 'k' : rowData.ups : 0;
+            let upvotes = 0;
+            // use k notation for bigger numbers
+            upvotes = rowData.ups && rowData.ups > 9999 ? `${(rowData.ups / 1000).toFixed(1)}k` : rowData.ups;
             const defaultImg = {
                 url: redditStatus.default,
                 width: 64,
@@ -120,12 +122,12 @@ export class RedditHome extends React.Component {
                     {rowData.subreddit &&
                         <Grid>
                             <Row>
-                                <Col style={{ width: 50 }}><Text style={styles.upboat}>{upboats}</Text></Col>
+                                <Col style={{ width: 50 }}><Text style={styles.upvote}>{upvotes}</Text></Col>
                                 <Col>
                                     <Col style={{ flexDirection: 'row' }}>
                                         <Col>
                                             <Text style={styles.boldLabel}>{rowData.title} <Text style={{ color: '#CCCCCC' }}>({rowData.domain})</Text></Text>
-                                            <Text style={styles.label}>{rowData.num_comments} comments {rowData.subreddit.display_name}</Text>
+                                            <Text style={styles.label}>{rowData.num_comments || 0} comments {rowData.subreddit.display_name}</Text>
                                         </Col>
                                         <Col style={{ width: 70, maxHeight: 70, maxWidth: 70 }}>
                                             <TouchableOpacity

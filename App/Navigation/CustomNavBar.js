@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+// import { PropTypes } from 'prop-types';
 import { View, LayoutAnimation } from 'react-native';
 import styles from './Styles/CustomNavBarStyles';
 import SearchBar from '../Components/SearchBar';
