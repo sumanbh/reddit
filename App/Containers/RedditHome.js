@@ -183,6 +183,7 @@ export class RedditHome extends React.Component {
                                 onRefresh={this.getFreshValue}
                             />
                         }
+                        keyboardShouldPersistTaps="always"
                         initialListSize={10}
                         contentContainerStyle={styles.listContent}
                         dataSource={this.state.dataSource}
