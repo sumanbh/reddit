@@ -28,7 +28,7 @@ class NavigationDrawer extends Component {
                 panCloseMask={0.2}
                 negotiatePan
                 tweenHandler={(ratio) => ({
-                    main: { opacity: Math.max(0.54, 1 - ratio) }
+                    main: { opacity: Math.max(0.54, 1 - ratio) },
                 })}
             >
                 <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate} />
@@ -38,7 +38,7 @@ class NavigationDrawer extends Component {
 }
 
 NavigationDrawer.propTypes = {
-    navigationState: PropTypes.object
+    navigationState: PropTypes.object,
 };
 
 const mapStateToProps = (state) => {

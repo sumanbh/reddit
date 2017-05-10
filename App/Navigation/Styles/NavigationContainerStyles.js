@@ -12,7 +12,7 @@ export default {
         color: Colors.snow,
     },
     leftButton: {
-        tintColor: Colors.snow,
+        tintColor: Colors.steel,
     },
     rightButton: {
         color: Colors.snow,

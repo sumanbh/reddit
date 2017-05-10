@@ -8,13 +8,13 @@ ExamplesRegistry.addComponentExample('Drawer Button', () =>
     <DrawerButton
         text="Example left drawer button"
         onPress={() => window.alert('Your drawers are showing')}
-    />
+    />,
 );
 
 class DrawerButton extends Component {
     static propTypes = {
       text: PropTypes.string,
-      onPress: PropTypes.func
+      onPress: PropTypes.func,
     }
 
     render() {

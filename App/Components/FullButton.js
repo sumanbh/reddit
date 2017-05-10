@@ -8,14 +8,14 @@ ExamplesRegistry.addComponentExample('Full Button', () =>
     <FullButton
         text="Hey there"
         onPress={() => window.alert('Full Button Pressed!')}
-    />
+    />,
 );
 
 export default class FullButton extends React.Component {
     static propTypes = {
       text: PropTypes.string,
       onPress: PropTypes.func,
-      styles: PropTypes.object
+      styles: PropTypes.object,
     }
 
     render() {

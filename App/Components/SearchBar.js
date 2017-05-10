@@ -4,19 +4,19 @@ import styles from './Styles/SearchBarStyles';
 import { Colors, Metrics } from '../Themes/';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import redditStatus from '../Images/base64';
-import { Actions as NavigationActions } from 'react-native-router-flux'
+import { Actions as NavigationActions } from 'react-native-router-flux';
 
 export default class SearchBar extends React.Component {
     static propTypes = {
         onSearch: React.PropTypes.func.isRequired,
-        searchTerm: React.PropTypes.string
+        searchTerm: React.PropTypes.string,
     }
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
-            searchTerm: this.props.searchTerm
-        }
+            searchTerm: this.props.searchTerm,
+        };
     }
 
     render() {
@@ -25,24 +25,24 @@ export default class SearchBar extends React.Component {
             onSearch(this.state.searchTerm);
             NavigationActions.refresh({
                 key: 'drawer',
-                open: false
-            })
-        }
+                open: false,
+            });
+        };
         return (
             <View style={styles.container}>
-                <Icon name='search' size={Metrics.icons.tiny} style={styles.searchIcon} />
+                <Icon name="search" size={Metrics.icons.tiny} style={styles.searchIcon} />
                 <TextInput
-                    ref='searchText'
+                    ref="searchText"
                     autoFocus
-                    placeholder='Enter subreddit'
+                    placeholder="Enter subreddit"
                     placeholderTextColor={Colors.snow}
-                    underlineColorAndroid='transparent'
+                    underlineColorAndroid="transparent"
                     style={styles.searchInput}
                     value={this.state.searchTerm}
                     onChangeText={(text) => {
                         this.setState({ searchTerm: text });
                     }}
-                    autoCapitalize='none'
+                    autoCapitalize="none"
                     onSubmitEditing={onSubmitEditing}
                     returnKeyType={'search'}
                     autoCorrect={false}
@@ -52,10 +52,10 @@ export default class SearchBar extends React.Component {
                     <Image
                         style={{ width: 40, height: 40 }}
                         source={{ uri: redditStatus.chevron }}
-                        overflow='hidden'
+                        overflow="hidden"
                     />
                 </TouchableOpacity>
             </View>
-        )
+        );
     }
 }

@@ -7,6 +7,7 @@ export default () => {
     const rootReducer = combineReducers({
         search: require('./SearchRedux').reducer,
         website: require('./WebviewRedux').reducer,
+        submission: require('./CommentsRedux').reducer,
     });
 
     return configureStore(rootReducer, rootSaga);

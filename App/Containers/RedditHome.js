@@ -11,6 +11,7 @@ import styles from './Styles/RedditHomeStyles';
 import redditStatus from '../Images/base64';
 import SearchActions from '../Redux/SearchRedux';
 import WebActions from '../Redux/WebviewRedux';
+import CommentActions from '../Redux/CommentsRedux';
 
 const reddit = new snoowrap({
     userAgent: config.USER_AGENT,
@@ -24,6 +25,7 @@ export class RedditHome extends React.Component {
     static propTypes = {
         attemptSearch: PropTypes.func,
         openWebsite: PropTypes.func,
+        openComments: PropTypes.func,
     }
     constructor(props) {
         super(props);
@@ -32,13 +34,14 @@ export class RedditHome extends React.Component {
         // data source
         const ds = new ListView.DataSource({ rowHasChanged });
         this.state = {
+            header: {},
             dataSource: ds.cloneWithRows([]),
-            webview: false,
             isRefreshing: false,
             animating: true,
         };
 
-        this.onPressButton = this.onPressButton.bind(this);
+        this.onPressOpenLink = this.onPressOpenLink.bind(this);
+        this.onPressOpenComments = this.onPressOpenComments.bind(this);
         this.renderRow = this.renderRow.bind(this);
         this.getFreshValue = this.getFreshValue.bind(this);
     }
@@ -59,8 +62,13 @@ export class RedditHome extends React.Component {
         }
     }
 
+    onPressOpenComments(submission, title) {
+        this.props.openComments(submission);
+        Actions.comments({ open: true, title });
+    }
+
     // opens Safari webview
-    onPressButton(url, title) {
+    onPressOpenLink(url, title) {
         this.props.openWebsite(url);
         Actions.webView({ open: true, title });
     }
@@ -126,12 +134,16 @@ export class RedditHome extends React.Component {
                                 <Col>
                                     <Col style={{ flexDirection: 'row' }}>
                                         <Col>
-                                            <Text style={styles.boldLabel}>{rowData.title} <Text style={{ color: '#CCCCCC' }}>({rowData.domain})</Text></Text>
-                                            <Text style={styles.label}>{rowData.num_comments || 0} comments {rowData.subreddit.display_name}</Text>
+                                            <TouchableOpacity
+                                                onPress={() => { this.onPressOpenComments(rowData.name, rowData.title); }}
+                                            >
+                                                <Text style={styles.boldLabel}>{rowData.title} <Text style={{ color: '#CCCCCC' }}>({rowData.domain})</Text></Text>
+                                                <Text style={styles.label}>{rowData.num_comments || 0} comments {rowData.subreddit.display_name}</Text>
+                                            </TouchableOpacity>
                                         </Col>
                                         <Col style={{ width: 70, maxHeight: 70, maxWidth: 70 }}>
                                             <TouchableOpacity
-                                                onPress={() => { this.onPressButton(rowData.url, rowData.title); }}
+                                                onPress={() => { this.onPressOpenLink(rowData.url, rowData.title); }}
                                                 style={{
                                                     justifyContent: 'center',
                                                     alignItems: 'flex-end',
@@ -208,6 +220,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         attemptSearch: (subreddit) => dispatch(SearchActions.search(subreddit)),
         openWebsite: (url) => dispatch(WebActions.website(url)),
+        openComments: (id) => dispatch(CommentActions.submission(id)),
     };
 };
 
