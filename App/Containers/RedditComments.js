@@ -165,6 +165,17 @@ export class RedditComments extends React.Component {
             <ScrollView
                 style={styles.container}
                 keyboardShouldPersistTaps="always"
+                refreshControl={
+                    <RefreshControl
+                        tintColor="#fff"
+                        title="Loading..."
+                        titleColor="#fff"
+                        colors={['#ff0000', '#00ff00', '#0000ff']}
+                        progressBackgroundColor="#ffff00"
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={this.getFreshValue}
+                    />
+                }
             >
                 {this.state.animating ? <ActivityIndicator
                     animating={this.state.animating}
@@ -177,17 +188,6 @@ export class RedditComments extends React.Component {
                     >
                         {this.state.header ? this.renderHeader(this.state.header) : null}
                         <ListView
-                            refreshControl={
-                                <RefreshControl
-                                    tintColor="#fff"
-                                    title="Loading..."
-                                    titleColor="#fff"
-                                    colors={['#ff0000', '#00ff00', '#0000ff']}
-                                    progressBackgroundColor="#ffff00"
-                                    refreshing={this.state.isRefreshing}
-                                    onRefresh={this.getFreshValue}
-                                />
-                            }
                             keyboardShouldPersistTaps="always"
                             initialListSize={10}
                             contentContainerStyle={styles.listContent}
