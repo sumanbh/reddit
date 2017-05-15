@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
-import styles from './Styles/AlertMessageStyles';
+import { View, ActivityIndicator } from 'react-native';
+import styles from './Styles/LoadingScreenStyles';
 
-export default class AlertMessage extends React.Component {
+export default class LoadingScreen extends React.Component {
     static defaultProps = { show: true, animating: true }
 
     static propTypes = {
@@ -32,6 +32,6 @@ export default class AlertMessage extends React.Component {
     }
 }
 
-AlertMessage.defaultProps = {
+LoadingScreen.defaultProps = {
     show: true,
 };

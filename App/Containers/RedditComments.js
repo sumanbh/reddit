@@ -11,6 +11,7 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import styles from './Styles/RedditCommentsStyles';
 import redditStatus from '../Images/base64';
 import WebActions from '../Redux/WebviewRedux';
+import Comments from '../Components/Comments';
 
 const reddit = new snoowrap({
     userAgent: config.USER_AGENT,
@@ -76,26 +77,9 @@ export class RedditComments extends React.Component {
 
     renderRow(rowData) {
         if (rowData) {
-            let upvotes = 0;
-            // use k notation for bigger numbers
-            upvotes = rowData.ups && rowData.ups > 9999 ? `${(rowData.ups / 1000).toFixed(1)}k` : rowData.ups;
             return (
-                <View style={styles.row}>
-                    {rowData.subreddit &&
-                        <Grid>
-                            <Row>
-                                <Col>
-                                    {/*<Text style={styles.label}>{rowData.author}</Text>*/}
-                                    <Text style={styles.upvote}>{upvotes}</Text>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <Text style={styles.label}>{rowData.body}</Text>
-                                </Col>
-                            </Row>
-                        </Grid>
-                    }
+                <View>
+                    <Comments reply={rowData} parent />
                 </View>
             );
         }

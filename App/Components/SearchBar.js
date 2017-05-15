@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, TextInput, TouchableOpacity, Image } from 'react-native';
 import styles from './Styles/SearchBarStyles';
 import { Colors, Metrics } from '../Themes/';
 import Icon from 'react-native-vector-icons/FontAwesome';
