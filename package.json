@@ -36,7 +36,7 @@
     "react-native-easy-grid": "^0.1.8",
     "react-native-i18n": "^1.0.0",
     "react-native-router-flux": "3.38.0",
-    "react-native-simple-markdown": "^1.0.60-rc.3",
+    "react-native-simple-markdown": "sumanbh/react-native-simple-markdown",
     "react-native-vector-icons": "^4.0.1",
     "react-redux": "^5.0.4",
     "redux": "3.6.0",
