@@ -4,22 +4,12 @@ import { connect } from 'react-redux';
 import { View, ScrollView, Text, ListView, Image, TouchableOpacity, RefreshControl, ActivityIndicator } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-import co from 'co';
-import snoowrap from 'snoowrap';
-import config from '../../dev.json';
-import { Col, Row, Grid } from 'react-native-easy-grid';
+import snoowrap from './snoowrap';
+import { Col, Row } from 'react-native-easy-grid';
 import styles from './Styles/RedditCommentsStyles';
 import redditStatus from '../Images/base64';
 import WebActions from '../Redux/WebviewRedux';
 import Comments from '../Components/Comments';
-
-const reddit = new snoowrap({
-    userAgent: config.USER_AGENT,
-    clientId: config.CLIENT_ID,
-    clientSecret: config.CLIENT_SECRET,
-    refreshToken: config.REFRESH_TOKEN,
-});
-reddit.config({ debug: true });
 
 export class RedditComments extends React.Component {
     static propTypes = {
@@ -66,13 +56,10 @@ export class RedditComments extends React.Component {
         return this.state.dataSource.getRowCount() === 0;
     }
 
-    requestForComments(submission) {
-        const self = this;
-        co(function* Generator() {
-            const result = yield reddit.getSubmission(submission).fetch();
-            const { comments, ...mainObj } = result;
-            self.setState({ dataSource: self.state.dataSource.cloneWithRows(comments), header: mainObj, isRefreshing: false, animating: false });
-        });
+    async requestForComments(submission) {
+        const result = await snoowrap.getSubmission(submission).fetch();
+        const { comments, ...mainObj } = result;
+        this.setState({ dataSource: this.state.dataSource.cloneWithRows(comments), header: mainObj, isRefreshing: false, animating: false });
     }
 
     renderRow(rowData) {
@@ -173,7 +160,7 @@ export class RedditComments extends React.Component {
                         {this.state.header ? this.renderHeader(this.state.header) : null}
                         <ListView
                             keyboardShouldPersistTaps="always"
-                            initialListSize={10}
+                            initialListSize={20}
                             contentContainerStyle={styles.listContent}
                             dataSource={this.state.dataSource}
                             renderRow={this.renderRow}

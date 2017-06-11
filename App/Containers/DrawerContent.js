@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, BackAndroid } from 'react-native';
+import { PropTypes } from 'prop-types';
+import { ScrollView, BackAndroid } from 'react-native';
 import styles from './Styles/DrawerContentStyles';
 import CustomNavBar from '../Navigation/CustomNavBar';
 
@@ -28,7 +29,7 @@ class DrawerContent extends Component {
 }
 
 DrawerContent.contextTypes = {
-    drawer: React.PropTypes.object,
+    drawer: PropTypes.object,
 };
 
 export default DrawerContent;

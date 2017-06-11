@@ -1,4 +1,5 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 import { View, TextInput, TouchableOpacity, Image } from 'react-native';
 import styles from './Styles/SearchBarStyles';
 import { Colors, Metrics } from '../Themes/';
@@ -8,8 +9,8 @@ import { Actions as NavigationActions } from 'react-native-router-flux';
 
 export default class SearchBar extends React.Component {
     static propTypes = {
-        onSearch: React.PropTypes.func.isRequired,
-        searchTerm: React.PropTypes.string,
+        onSearch: PropTypes.func.isRequired,
+        searchTerm: PropTypes.string,
     }
 
     constructor(props) {

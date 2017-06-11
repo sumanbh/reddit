@@ -20,13 +20,11 @@ export class Comments extends React.Component {
     }
 
     renderBody(reply) {
-        // console.log(JSON.stringify(reply));
         return (
             <View>
                 <Markdown style={styles.commentBody}>
                     {reply.body}
                 </Markdown>
-                {/*<Text style={styles.commentBody}>{reply.body}</Text>*/}
                 {reply.replies && reply.replies.map((child) => {
                     return <Comments key={child.id} reply={child} parent={false} />;
                 })}

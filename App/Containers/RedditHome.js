@@ -4,22 +4,13 @@ import { connect } from 'react-redux';
 import { View, Text, ListView, Image, TouchableOpacity, RefreshControl, ActivityIndicator } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-import snoowrap from 'snoowrap';
-import config from '../../dev.json';
+import snoowrap from './snoowrap';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import styles from './Styles/RedditHomeStyles';
 import redditStatus from '../Images/base64';
 import SearchActions from '../Redux/SearchRedux';
 import WebActions from '../Redux/WebviewRedux';
 import CommentActions from '../Redux/CommentsRedux';
-
-const reddit = new snoowrap({
-    userAgent: config.USER_AGENT,
-    clientId: config.CLIENT_ID,
-    clientSecret: config.CLIENT_SECRET,
-    refreshToken: config.REFRESH_TOKEN,
-});
-reddit.config({ debug: true });
 
 export class RedditHome extends React.Component {
     static propTypes = {
@@ -46,13 +37,12 @@ export class RedditHome extends React.Component {
         this.getFreshValue = this.getFreshValue.bind(this);
     }
 
-    componentDidMount() {
-        reddit.getHot().then((result) => {
-            if (result.length > 0) {
-                // console.log('INITIAL', result[0]);
-                this.setState({ dataSource: this.state.dataSource.cloneWithRows(result), isRefreshing: false, animating: false });
-            }
-        });
+    async componentWillMount() {
+        const result = await snoowrap.getHot();
+        if (result.length > 0) {
+            // console.log('INITIAL', result[0]);
+            this.setState({ dataSource: this.state.dataSource.cloneWithRows(result), isRefreshing: false, animating: false });
+        }
     }
 
     componentWillReceiveProps(newProps) {
@@ -84,11 +74,11 @@ export class RedditHome extends React.Component {
         return this.state.dataSource.getRowCount() === 0;
     }
 
-    requestReddit(subreddit = '') {
+    async requestReddit(subreddit = '') {
         if (subreddit.length <= 22) {
-            reddit.getHot(subreddit).then((result) => {
-                if (result.length > 0) {
-                    switch (subreddit.toLowerCase()) {
+            const result = await snoowrap.getHot(subreddit);
+            if (result.length > 0) {
+                switch (subreddit.toLowerCase()) {
                     case '': {
                         Actions.refresh({ title: 'Reddit: the front page of the internet' });
                         break;
@@ -104,10 +94,9 @@ export class RedditHome extends React.Component {
                     default: {
                         Actions.refresh({ title: result[0].subreddit_name_prefixed || 'Reddit: the front page of the internet' });
                     }
-                    }
-                    this.setState({ dataSource: this.state.dataSource.cloneWithRows(result), isRefreshing: false, searchTerm: subreddit, animating: false });
                 }
-            });
+                this.setState({ dataSource: this.state.dataSource.cloneWithRows(result), isRefreshing: false, searchTerm: subreddit, animating: false });
+            }
         }
     }
 
@@ -198,7 +187,7 @@ export class RedditHome extends React.Component {
                             />
                         }
                         keyboardShouldPersistTaps="always"
-                        initialListSize={10}
+                        initialListSize={20}
                         contentContainerStyle={styles.listContent}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow}
